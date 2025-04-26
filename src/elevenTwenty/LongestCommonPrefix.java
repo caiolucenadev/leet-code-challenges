@@ -1,3 +1,5 @@
+package elevenTwenty;
+
 import java.util.Arrays;
 
 class LongestCommonPrefix {

@@ -1,27 +1,36 @@
-import java.util.Stack;
+import java.util.HashMap;
+import java.util.Map;
 
-class ValidParentheses {
+class RemoveDuplicates {
 
     public static void main(String[] args) {
-        System.out.println(isValid("([])"));
+        System.out.println(removeDuplicates(new int[]{1, 1, 2}));
 
     }
 
-    public static boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                stack.push(')');
-            } else if (s.charAt(i) == '{') {
-                stack.push('}');
-            } else if (s.charAt(i) == '[') {
-                stack.push(']');
-            } else {
-                if (stack.isEmpty() || stack.pop() != s.charAt(i)) {
-                    return false;
-                }
+    public static int removeDuplicates(int[] nums) {
+        int[] unrepeated = nums;
+
+        Map<Integer, Integer> repeatedElemets = new HashMap<>();
+        int k = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i - 1] == nums[i]) {
+                int value = repeatedElemets.get(nums[i]) == null ? 1 : repeatedElemets.get(nums[i]);
+                repeatedElemets.put(nums[i], value + 1);
+                k++;
             }
         }
-        return stack.isEmpty();
+        int j = 0;
+        int l = 0;
+        while (j < unrepeated.length) {
+            nums[l] = unrepeated[j];
+            if (repeatedElemets.containsKey(unrepeated[j])) {
+                j += repeatedElemets.get(unrepeated[j]);
+            } else {
+                j++;
+            }
+            l++;
+        }
+        return nums.length - k;
     }
 }
